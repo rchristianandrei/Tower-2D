@@ -51,11 +51,11 @@ public class HeroKnightAnimation : MonoBehaviour
 
         if (dir > 0)
         {
-            transform.localScale = new(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            transform.localScale = new(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
         else if (dir < 0)
         {
-            transform.localScale = new(-Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            transform.localScale = new(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
 
         animator.SetBool(IS_WALKING, dir != 0);

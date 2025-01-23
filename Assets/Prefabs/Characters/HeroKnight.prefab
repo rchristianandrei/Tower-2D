@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7743140321413556169}
   - component: {fileID: 7267390112254151831}
   - component: {fileID: 5181260278002797151}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HeroKnight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,6 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa086126238f524bbc78c8f7bc1498b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSpeed: 5
+  jumpForce: 5
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -143,8 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 794403c56589f684681c09189e306a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  jumpForce: 5
   heroKnight: {fileID: 7743140321413556169}
 --- !u!1 &4971170144748745748
 GameObject:
@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 3776925625898115413}
   - component: {fileID: 2275418313066280355}
   - component: {fileID: 1088087536019608038}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HeroKnightVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 2889988684774808609}
   - component: {fileID: 599747120382154580}
   - component: {fileID: 7202100755084382129}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
