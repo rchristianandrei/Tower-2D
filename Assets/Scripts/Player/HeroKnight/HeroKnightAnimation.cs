@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
 
-public class PlayerAnimation : MonoBehaviour
+public class HeroKnightAnimation : MonoBehaviour
 {
-    [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private PlayerAttack playerAttack;
+    [SerializeField] private HeroKnight heroKnight;
+    [SerializeField] private HeroKnightMovement playerMovement;
+    [SerializeField] private HeroKnightAttack playerAttack;
 
     private Animator animator;
 
@@ -28,7 +29,7 @@ public class PlayerAnimation : MonoBehaviour
         playerAttack.OnPlayerPrimaryAttack += PlayerAttack_OnPlayerPrimaryAttack; ;
     }
 
-    private void PlayerAttack_OnPlayerPrimaryAttack(object sender, PlayerAttack.OnPlayerPrimaryAttackEvent e)
+    private void PlayerAttack_OnPlayerPrimaryAttack(object sender, HeroKnightAttack.OnPlayerPrimaryAttackEvent e)
     {
         animator.SetBool(IS_ATTACKING, true);
         endOfAttackCallback = e.afterAttackCallback;
@@ -46,7 +47,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void PlayerMovement_OnPlayerMoved(object sender, float dir)
     {
-        if (!playerMovement.GetCanMove()) return;
+        if (!heroKnight.GetCanMove()) return;
 
         if (dir > 0)
         {

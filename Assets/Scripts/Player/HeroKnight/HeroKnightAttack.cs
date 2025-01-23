@@ -1,7 +1,8 @@
+using Mono.Cecil;
 using System;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class HeroKnightAttack : MonoBehaviour
 {
     public event EventHandler<OnPlayerPrimaryAttackEvent> OnPlayerPrimaryAttack;
     public class OnPlayerPrimaryAttackEvent : EventArgs
@@ -9,17 +10,12 @@ public class PlayerAttack : MonoBehaviour
         public Action afterAttackCallback;
     }
 
-    private PlayerMovement PlayerMovement;
+    [SerializeField] private HeroKnight heroKnight;
 
     [SerializeField] private float attackCooldownMax = 0.75f;
     [SerializeField] private BoxCollider2D attackHitBox;
 
     private float attackCooldownTimer = 0;
-
-    private void Awake()
-    {
-        PlayerMovement = GetComponent<PlayerMovement>();
-    }
 
     private void Start()
     {
@@ -36,18 +32,26 @@ public class PlayerAttack : MonoBehaviour
 
     private void GameInputActions_OnPlayerAttack(object sender, System.EventArgs e)
     {
-        if (PlayerMovement.OnGround() && attackCooldownTimer <= 0)
+        if (heroKnight.OnGround() && attackCooldownTimer <= 0)
         {
             var hits = Physics2D.BoxCastAll(attackHitBox.transform.position, attackHitBox.size, 0, Vector2.zero);
             foreach(var hit in hits)
             {
-                Debug.Log(hit.transform.name);
+                DealDamage(hit.transform.gameObject, 10f);
             }
 
             attackCooldownTimer = attackCooldownMax;
-            PlayerMovement.ResetVelocity();
-            PlayerMovement.SetCanMove(false);
-            OnPlayerPrimaryAttack?.Invoke(this, new OnPlayerPrimaryAttackEvent() { afterAttackCallback = () => { PlayerMovement.SetCanMove(true); } });
+            heroKnight.ResetLinearVelocity();
+            heroKnight.SetCanMove(false);
+            OnPlayerPrimaryAttack?.Invoke(this, new OnPlayerPrimaryAttackEvent() { afterAttackCallback = () => { heroKnight.SetCanMove(true); } });
+        }
+    }
+
+    private void DealDamage(GameObject target, float damage)
+    {
+        if(target.TryGetComponent<IAttackable>(out var attackable))
+        {
+            attackable.ReceiveAttack(gameObject, damage);
         }
     }
 }
