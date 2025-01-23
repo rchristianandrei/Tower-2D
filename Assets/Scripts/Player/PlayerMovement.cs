@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public event EventHandler OnPlayerJump;
     public event EventHandler OnPlayerLand;
 
+    private bool canMove = true;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -29,8 +31,12 @@ public class PlayerMovement : MonoBehaviour
     private void LateUpdate()
     {
         var movDir = GameInputActions.Instance.getPlayerMovement();
-        rigidbody.linearVelocity = new(movDir.x * movementSpeed, rigidbody.linearVelocity.y);
-        OnPlayerMoved?.Invoke(this, movDir.x);
+
+        if (canMove)
+        {
+            rigidbody.linearVelocity = new(movDir.x * movementSpeed, rigidbody.linearVelocity.y);
+            OnPlayerMoved?.Invoke(this, movDir.x);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -44,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
     private void GameInputActions_OnPlayerJump(object sender, EventArgs e)
     {
         if (!OnGround()) return;
-        
+
         rigidbody.linearVelocity = new(rigidbody.linearVelocity.x, jumpForce);
         OnPlayerJump?.Invoke(this, EventArgs.Empty);
     }
@@ -61,4 +67,21 @@ public class PlayerMovement : MonoBehaviour
 
         return hit.collider != null;
     }
+
+    public void ResetVelocity()
+    {
+        rigidbody.linearVelocity = Vector2.zero;
+    }
+
+    #region "Getters and Setters"
+    public void SetCanMove(bool canMove)
+    {
+        this.canMove = canMove;
+    }
+
+    public bool GetCanMove()
+    {
+        return this.canMove;
+    }
+    #endregion
 }

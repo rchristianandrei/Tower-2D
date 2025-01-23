@@ -6,6 +6,7 @@ public class GameInputActions : MonoBehaviour
     public static GameInputActions Instance { get; private set; }
 
     public event EventHandler OnPlayerJump;
+    public event EventHandler OnPlayerAttack;
 
     private GameInput gameInput;
 
@@ -24,6 +25,10 @@ public class GameInputActions : MonoBehaviour
         gameInput.Player.Jump.performed += (obj) =>
         {
             OnPlayerJump?.Invoke(this, EventArgs.Empty);
+        };
+        gameInput.Player.PrimaryAttack.performed += (obj) =>
+        {
+            OnPlayerAttack?.Invoke(this, EventArgs.Empty);
         };
 
         Instance = this;
